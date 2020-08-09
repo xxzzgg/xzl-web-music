@@ -1,26 +1,20 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { memo } from 'react';
+import { renderRoutes } from 'react-router-config';
+import { Provider } from 'react-redux';
+import routes from './router';
 
-function App() {
+import ZLFooter from '@/components/app-footer';
+import ZLHeadr from '@/components/app-header';
+import { BrowserRouter } from 'react-router-dom';
+import store from './store';
+export default memo(function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
-
-export default App;
+  <Provider store={store}>
+    <BrowserRouter>
+        <ZLHeadr />
+        {renderRoutes(routes)}
+        <ZLFooter />
+      </BrowserRouter>
+  </Provider>
+  )
+})
