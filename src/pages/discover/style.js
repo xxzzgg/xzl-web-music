@@ -21,7 +21,7 @@ export const TopMenu = styled.div`
         margin: 7px 17px 0;
         color: #fff;
 
-        &:hover, &.active {
+        &:hover,  &.active {
          
           border-radius: 10px;
           background-color: #9B0909;

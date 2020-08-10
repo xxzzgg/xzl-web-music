@@ -1,15 +1,17 @@
+
 import React, { memo } from 'react';
 import { Input } from 'antd';
 import { SearchOutlined } from '@ant-design/icons'
 import { NavLink } from 'react-router-dom';
 import { headerLinks } from '../../common/local-data'
-import { HeaderWrapper, HeaderLeft, HeaderRight } from './style'
+import { HeaderWrapper, HeaderLeft, HeaderRight } from './style';
+import classnames from "classnames";
 
 export default memo(function ZLHeader() {
   const itemSelect = (item, index) => {
     if (index < 3) {
       return (
-        <NavLink to={item.link} exact>
+        <NavLink to={item.link}>
           {item.title}
           <i className="sprite_01 icon"></i>
         </NavLink>
@@ -26,13 +28,15 @@ export default memo(function ZLHeader() {
           <HeaderLeft>
             <a href="/" className="logo sprite_01">网易云音乐</a>
             <div className="select-list">
-              {headerLinks.map((item, index) => {
+              {
+              headerLinks.map((item, index) => {
               return (
-                <div key={item.title} className="select-item">
+                <div key={item.title} className={classnames("select-item")}>
                   {itemSelect(item,index)}
                 </div>
               )
-            })}
+            })
+            }
             </div>
           </HeaderLeft>
           <HeaderRight>

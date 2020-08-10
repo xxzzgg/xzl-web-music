@@ -4,17 +4,18 @@ import { Provider } from 'react-redux';
 import routes from './router';
 
 import ZLFooter from '@/components/app-footer';
-import ZLHeadr from '@/components/app-header';
+import ZLHeader from '@/components/app-header';
 import { BrowserRouter } from 'react-router-dom';
 import store from './store';
+
 export default memo(function App() {
   return (
   <Provider store={store}>
     <BrowserRouter>
-        <ZLHeadr />
+        <ZLHeader />
         {renderRoutes(routes)}
         <ZLFooter />
-      </BrowserRouter>
+    </BrowserRouter>
   </Provider>
   )
 })

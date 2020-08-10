@@ -19,13 +19,15 @@ const routes = [
     path:"/",
     exact:true,
     render: () => (
-      <Redirect to="/discover"/>
+      <Redirect to="/discover/recommend"/>
     )
   },
 
   {
     path: "/discover",
     component: ZLDiscover,
+
+    
     routes: [
     { 
       path: "/discover",
