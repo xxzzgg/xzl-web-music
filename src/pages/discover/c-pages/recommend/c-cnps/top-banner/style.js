@@ -9,6 +9,20 @@ export const TopBannerWrapper = styled.div`
     background-color: red;
     display: flex;
     position: relative;
+    .slick-dots li{
+      width: 20px;
+      height: 20px;
+        button {
+          width: 7px;
+          height: 7px;
+          border-radius: 50%;
+        }
+      &.slick-active button{
+        background-color: #c20c0c;
+        
+      }
+ 
+  }
   }
 `
 

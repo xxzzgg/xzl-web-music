@@ -99,6 +99,11 @@ body, textarea, select, input, button {
   background: url(../img/sprite_table.png) no-repeat 0 9999px;
 }
 
+/*  */
+
+.sprite_player {
+  background: url(../img/playbar_sprite.png) no-repeat 0 9999px;
+}
 .image_cover {
   position: absolute;
   left: 0;
@@ -108,3 +113,4 @@ body, textarea, select, input, button {
   text-indent: -9999px;
   background: url(../img/sprite_cover.png) no-repeat -145px -57px;
 }
+

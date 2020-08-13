@@ -6,6 +6,7 @@ import routes from './router';
 import ZLFooter from '@/components/app-footer';
 import ZLHeader from '@/components/app-header';
 import { BrowserRouter } from 'react-router-dom';
+import AppPlayBar from '@/pages/player/app-player-bar';
 import store from './store';
 
 export default memo(function App() {
@@ -15,6 +16,7 @@ export default memo(function App() {
         <ZLHeader />
         {renderRoutes(routes)}
         <ZLFooter />
+        <AppPlayBar />
     </BrowserRouter>
   </Provider>
   )

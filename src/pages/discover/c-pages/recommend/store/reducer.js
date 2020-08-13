@@ -1,4 +1,4 @@
-import * as actionTypes from './constants'
+import * as actionTypes from './constants';
 import { Map } from 'immutable';
 
 const defaultState = Map({
