@@ -5,7 +5,7 @@ import { Slider } from 'antd';
 import { getSizeImage, formatMinuteSecond, getPlaySong } from '@/utils/format-utils';
 import { PlayerBarWrapper, PlayInfo, Operator, Control } from './style'
 
-import { getSongDetailAction } from '../store/actionCreators'
+import { getSongDetailAction,changeSequenceAction, changeCurrentSongsAction } from '../store/actionCreators'
 
 export default memo(function AppPlayerBar(props) {
   //props and state
@@ -14,19 +14,34 @@ export default memo(function AppPlayerBar(props) {
   const [isChanging,setIsChanging ] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   // let { isPlaying = false, sequence = 0 } = props;
-  const [sequence, setSequence] = useState(0);
-  const { currentSong } = useSelector(state => ({
-    currentSong: state.getIn(["player", "currentSong"])
+  // const [sequence, setSequence] = useState(0);
+  
+  const { currentSong, sequence, playList } = useSelector(state => ({
+    currentSong: state.getIn(["player", "currentSong"]),
+    playList: state.getIn(["player", "playList"]),
+    sequence: state.getIn(["player", "sequence"])
   }), shallowEqual);
 
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getSongDetailAction(1407551413))
   }, [dispatch]);
 
+  //current song 改变
   useEffect(() => {
+    //通过id获取歌曲src
     audioRef.current.src = getPlaySong(currentSong.id);
+    //??????????????????????//
+    //play() 是异步的
+    audioRef.current.play().then(res => {
+      setIsPlaying(true);
+    }).catch(err => {
+      setIsPlaying(false);
+    });
+  
   }, [currentSong]);
+
   const audioRef = useRef()
   const picUrl = (currentSong.al && currentSong.al.picUrl) || "";
   const songName = (currentSong && currentSong.name) || "未知";
@@ -35,6 +50,19 @@ export default memo(function AppPlayerBar(props) {
   const showDuration =  formatMinuteSecond(duration);
   const showCurrentTime = formatMinuteSecond(currentTime);
   //handle function 
+  const changeSequence = () => {
+    let currentSequence = sequence + 1;
+    if (currentSequence > 2) {
+      currentSequence = 0;
+    }
+    dispatch(changeSequenceAction(currentSequence));
+      
+    }
+  
+  const changeSongs = (tag) => {
+    dispatch(changeCurrentSongsAction(tag));
+  }
+
   const playMusic = useCallback(() => {
       isPlaying ? audioRef.current.pause() : audioRef.current.play();
       setIsPlaying(!isPlaying);
@@ -46,7 +74,6 @@ export default memo(function AppPlayerBar(props) {
     if (!isChanging) {
       setCurrentTime(e.target.currentTime * 1000);
       setProgress(currentTime / duration * 100);
-      console.log(e.target.currentTime);
     }
     
   }
@@ -68,14 +95,24 @@ export default memo(function AppPlayerBar(props) {
       playMusic()
     }
   }, [duration, isPlaying, playMusic]);
+
+  //ended
+  const handleEnded = () => {
+      if (sequence === 2 ) {
+        audioRef.current.currentTime = 0;
+        audioRef.current.play();
+      }else {
+        dispatch(changeCurrentSongsAction(1));
+      }
+  }
   return (
     <div>
       <PlayerBarWrapper className="sprite_player" >
         <div className="content">
           <Control isPlaying={isPlaying}>
-            <button className="prev sprite_player"></button>
+            <button className="prev sprite_player" onClick={e => changeSongs(-1)}></button>
             <button className="play sprite_player" onClick={e => playMusic()}></button>
-            <button className="next sprite_player"></button>
+            <button className="next sprite_player" onClick={e => changeSongs(1)}></button>
           </Control>
           <PlayInfo>
             <div className="image">
@@ -109,12 +146,13 @@ export default memo(function AppPlayerBar(props) {
             </div>
             <div className="right sprite_player">
               <button className="sprite_player btn volume"></button>
-              <button className="sprite_player btn loop"></button>
+              <button className="sprite_player btn loop" onClick={e => changeSequence(sequence)}></button>
               <button className="sprite_player btn playlist"></button>
             </div>
           </Operator>
         </div>
-        <audio ref={audioRef} onTimeUpdate={timeUpdate}></audio>
+         
+        <audio ref={audioRef} onTimeUpdate={timeUpdate} onEnded={ e => handleEnded()}></audio>
       </PlayerBarWrapper>
     </div>
   )
