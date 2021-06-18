@@ -6,5 +6,9 @@ import {reducer as playerReducer} from '../pages/player/store';
 const cReducer = combineReducers({
   recommend: recommendReducer,
   player :playerReducer
-})
+});
+function test() {
+  console.log('just test git test2 commit')
+}
+
 export default cReducer;
