@@ -3,10 +3,10 @@ import cReducer from './reducer';
 import thunk from 'redux-thunk'
 
 
-const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true}) || compose;
+// const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({trace:true}) || compose;
 
- const storeEnhancer = applyMiddleware(thunk);
+const storeEnhancer = applyMiddleware(thunk);
 
- const store = createStore(cReducer,composeEnhancers(storeEnhancer));
+const store = createStore(cReducer, storeEnhancer);
 
- export default store;
+export default store;
